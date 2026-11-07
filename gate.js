@@ -27,6 +27,15 @@
   const form = document.getElementById('gate-form');
   const input = document.getElementById('gate-pass');
   const error = document.getElementById('gate-error');
+  const why = document.getElementById('gate-why');
+  const whyText = document.getElementById('gate-why-text');
+  if (why && whyText) {
+    why.addEventListener('click', () => {
+      const opening = whyText.hidden;
+      whyText.hidden = !opening;
+      why.setAttribute('aria-expanded', String(opening));
+    });
+  }
   const LEGACY = 'efaa190af9404d1e754fee13b30be8a8dff4b9473ff8312e700256238911ca0b';
   const hashes = new Set([LEGACY]);
 

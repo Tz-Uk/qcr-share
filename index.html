@@ -19,7 +19,13 @@
 <body>
 <div id="gate" role="dialog" aria-modal="true" aria-label="Password required">
   <form id="gate-form" autocomplete="off" data-clarity-unmask="True">
-    <h1>Protected</h1>
+    <h1>Protected
+      <button type="button" id="gate-why" class="gate-why"
+        aria-label="Why is this password protected?" aria-expanded="false">?</button>
+    </h1>
+    <p id="gate-why-text" class="gate-why-text" hidden>
+      This site is password-protected because it’s my personal GitHub account and this specific project is private.
+    </p>
     <p>Enter the password to open this page.</p>
     <input id="gate-pass" type="text" autocomplete="off" spellcheck="false"
       autocapitalize="off" data-clarity-unmask="True" autofocus>
