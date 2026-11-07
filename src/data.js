@@ -215,6 +215,27 @@ export function surahLinkCount(number) {
   return n;
 }
 
+/**
+ * The span holding one verse plus every verse it connects to. Used when a
+ * connection is opened from the panel: fit its links instead of diving into
+ * a 34-verse window at the target.
+ */
+export function verseEnvelope(index) {
+  const p0 = posOf(index);
+  let lo = p0;
+  let hi = p0;
+  const cat = state.category;
+  for (const e of state.adjacency[index] || []) {
+    if (cat >= 0 && e.cat !== cat) continue;
+    const p = posOf(e.o);
+    if (p < lo) lo = p;
+    if (p > hi) hi = p;
+  }
+  if (hi - lo < 2) return { start: p0 - 17, end: p0 + 17 };
+  const pad = Math.max(2, Math.round((hi - lo) * 0.06));
+  return { start: lo - pad, end: hi + pad };
+}
+
 export function surahNumberAtPos(pos) {
   const vi = verseAtPos(pos);
   return state.quran.verses[vi].s;

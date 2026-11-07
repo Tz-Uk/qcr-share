@@ -427,7 +427,7 @@ export function createUI(view, app) {
     why.textContent = connectionWhy(c);
 
     b.append(top, why, ar, tr);
-    b.addEventListener('click', () => app.navigate(o));
+    b.addEventListener('click', () => app.navigate(o, { fitConnections: true }));
     return b;
   }
 

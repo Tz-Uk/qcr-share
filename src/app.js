@@ -111,11 +111,14 @@ async function boot() {
 
 /* ------------------------------------------------------------- navigation */
 
-function navigate(index, { fromBar = false, replace = false } = {}) {
+function navigate(index, { fromBar = false, replace = false, fitConnections = false } = {}) {
   if (index == null) return;
   index = Math.max(0, Math.min(6235, index));
   state.activeSurah = state.quran.verses[index].s;
-  if (!fromBar) app.view.focusVerse(index, { zoom: true });
+  if (!fromBar) {
+    if (fitConnections) app.view.fitVerseConnections(index);
+    else app.view.focusVerse(index, { zoom: true });
+  }
   app.ui.openPanel(index);
   writeHash(index, replace);
   if (!fromBar) setTimeout(syncUrl, 520);

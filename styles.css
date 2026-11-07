@@ -273,6 +273,10 @@ body.panel-open #stage { right: var(--panel-w); }
 }
 body.panel-open #arcs { cursor: crosshair; }
 
+#arcs, #overlay { touch-action: none; }
+body { overscroll-behavior: none; }
+html, body { overflow-x: hidden; }
+
 .legend {
   position: absolute; left: 16px; top: 14px;
   display: flex; gap: 12px;
@@ -643,7 +647,7 @@ body.panel-open .footbar { right: var(--panel-w); }
 
 @media (max-width: 760px) {
   :root { --header-h: 104px; --foot-h: 50px; --panel-w: 100%; }
-  .topbar { flex-wrap: wrap; gap: 8px; padding: 8px 12px; align-content: center; }
+  .topbar { flex-wrap: wrap; gap: 8px; padding: 8px 12px; padding-top: max(8px, env(safe-area-inset-top)); align-content: center; }
   .brand { order: 1; }
   .topbar-tools { order: 2; margin-left: auto; }
   .searchbox { order: 3; flex-basis: 100%; max-width: none; }
@@ -656,13 +660,15 @@ body.panel-open .footbar { right: var(--panel-w); }
   .legend { left: 10px; top: 10px; gap: 8px; font-size: 10px; }
   .foot-left { display: none; }
   .foot-right { margin-left: auto; }
-  #stage { bottom: calc(var(--foot-h) + 40px); }
+  #stage { bottom: calc(var(--foot-h) + 40px + env(safe-area-inset-bottom)); }
   body.panel-open #stage { right: 0; }
   body.panel-open .surahbar, body.panel-open .footbar { right: 0; }
 
   .panel {
     top: auto; left: 0; right: 0; bottom: 0; width: 100%;
-    height: min(74vh, 640px);
+    height: min(78dvh, 680px);
+    max-height: calc(100dvh - 12px);
+    padding-bottom: env(safe-area-inset-bottom);
     border-left: 0; border-top: 1px solid var(--line-2);
     border-radius: 18px 18px 0 0;
     animation: slideup .3s var(--ease);
@@ -670,8 +676,17 @@ body.panel-open .footbar { right: var(--panel-w); }
   @keyframes slideup { from { transform: translateY(40px); opacity: 0; } }
   .ref { font-size: 22px; }
   .arabic { font-size: 24px; }
-  .surahbar { padding: 6px 6px 4px; height: 40px; }
+  .surahbar {
+    padding: 6px 6px 4px; height: 40px;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .surahbar::-webkit-scrollbar { display: none; }
   .surah-seg span { display: none; }
+  .surah-seg { min-width: 9px; }
+  .searchbox input { font-size: 16px; }
+  .panel-close { width: 44px; height: 44px; }
+  .minimap { display: none; }
   .hint { font-size: 10.5px; top: 8px; }
   .minimap { width: 108px; top: 10px; right: 10px; }
   .modal-card { padding: 24px 20px; }

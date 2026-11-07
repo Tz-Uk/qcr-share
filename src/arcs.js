@@ -16,7 +16,7 @@
  *  - The overlay (axis, labels, focused links) is cheap 2D and stays live.
  */
 
-import { state, posOf, verseAtPos, refOf, surahEnvelope } from './data.js';
+import { state, posOf, verseAtPos, refOf, surahEnvelope, verseEnvelope } from './data.js';
 
 const MIN_SPAN = 6;
 const TOTAL = 6236;
@@ -477,6 +477,12 @@ export class ArcView {
     const centre = (surahLo + surahHi) / 2;
     this.focusPos(centre - target / 2, centre + target / 2);
     return { all: false, span: envSpan };
+  }
+
+  /** Fit a verse together with every verse it connects to. */
+  fitVerseConnections(index) {
+    const env = verseEnvelope(index);
+    this.focusPos(env.start, env.end);
   }
 
   focusVerse(index, { zoom = true, animate = true } = {}) {
