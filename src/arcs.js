@@ -102,7 +102,7 @@ void main() {
   vec3 light = texture(uAccum, vUv).rgb;
   float peak = max(max(light.r, light.g), light.b);
   // Reinhard tone map: one divide, no per-pixel logarithm.
-  float intensity = clamp(peak / (peak + max(1.0, uCeiling) * 0.06), 0.0, 1.0) * uDim;
+  float intensity = clamp(peak / (peak + max(1.0, uCeiling) * 0.042), 0.0, 1.0) * uDim;
   vec3 hue = peak > 0.0 ? light / peak : vec3(0.0);
   outColor = vec4(hue, intensity);
 }`;
@@ -778,7 +778,7 @@ export class ArcView {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(out), gl.DYNAMIC_DRAW);
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
     this.instanceCount = out.length / 5;
-    this.ceiling = Math.max(this.instanceCount / 250, 20);
+    this.ceiling = Math.max(this.instanceCount / 380, 14);
   }
 
   _drawGL() {
@@ -805,7 +805,7 @@ export class ArcView {
       gl.uniform1f(this.lineLoc.uAxisEnd, this.w - this.pad);
       gl.uniform1f(this.lineLoc.uBaseline, this.base);
       gl.uniform1f(this.lineLoc.uMaxHeight, Math.max(20, this.base - 22));
-      gl.uniform1f(this.lineLoc.uAlpha, 1);
+      gl.uniform1f(this.lineLoc.uAlpha, 1.7);
       gl.uniform3fv(this.lineLoc.uC0, pal.meccan);
       gl.uniform3fv(this.lineLoc.uC1, pal.medinan);
       gl.drawArraysInstanced(gl.LINES, 0, this.lineVerts, this.instanceCount);
@@ -825,7 +825,9 @@ export class ArcView {
     gl.bindTexture(gl.TEXTURE_2D, this.glowTex);
     gl.uniform1i(this.compLoc.uAccum, 0);
     gl.uniform1f(this.compLoc.uCeiling, this.ceiling);
-    gl.uniform1f(this.compLoc.uDim, focus == null ? 1 : this.selected != null ? 0.3 : 0.55);
+    // Keep the all-connections field readable when a verse is open; the gold
+    // focus arcs provide the emphasis, not a 70% dim.
+    gl.uniform1f(this.compLoc.uDim, focus == null ? 1 : this.selected != null ? 0.78 : 0.92);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     gl.bindVertexArray(null);
 
@@ -845,7 +847,7 @@ export class ArcView {
 
     const maxH = Math.max(20, base - 22);
     const span = this.span;
-    const alpha = clamp(0.16 * Math.pow(TOTAL / span, 0.32), 0.09, 0.55);
+    const alpha = clamp(0.24 * Math.pow(TOTAL / span, 0.32), 0.16, 0.72);
     const width = 0.6 + 0.45 * clamp(1 - span / TOTAL, 0, 1);
     const links = state.links;
     const pos = state.posOfVerse;
