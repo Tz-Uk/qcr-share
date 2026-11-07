@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-11-05T18:31:51.406Z",
+  "mode": "shia",
+  "label": "Shia",
+  "sourceName": "Allamah Tabataba'i",
+  "sourceWork": "al-Mizan fi Tafsir al-Qur'an",
+  "sourceShort": "al-Mizan",
+  "sourceUrl": "https://github.com/app-furqan/quran-app-data",
+  "licence": "CC BY-ND 4.0 (dataset packaging); links are derived verse references",
+  "verses": 6236,
+  "links": 65257,
+  "passages": 594,
+  "references": 5333,
+  "maxReferencesPerPassage": 230,
+  "categories": [
+    "Quran by Quran"
+  ],
+  "note": "Verse pairs extracted from the Arabic tafsir; no tafsir text is stored."
+}

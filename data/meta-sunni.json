@@ -1,0 +1,13 @@
+{
+  "mode": "sunni",
+  "label": "Sunni",
+  "sourceName": "Ibn Ashur",
+  "sourceWork": "al-Tahrir wa al-Tanwir",
+  "sourceShort": "Ibn Ashur",
+  "sourceUrl": "https://huggingface.co/datasets/ShahamFarooq/quran-bil-quran-connections",
+  "licence": "Apache-2.0 (dataset packaging)",
+  "verses": 6236,
+  "links": 21112,
+  "categories": ["Bayani","Siyaqi","Tafsili","Uslubi","Lughawi","Tawfiqi","Takhsis","Nazmi","Taqyid","Muhkam-based","Naskh","Other"],
+  "note": "Verse pairs extracted from Ibn Ashur's tafsir; each keeps its relation category."
+}

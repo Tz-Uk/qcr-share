@@ -1,0 +1,28 @@
+#gate {
+  position: fixed; inset: 0; z-index: 99999;
+  display: grid; place-items: center;
+  background: var(--bg); color: var(--ink);
+}
+#gate form {
+  width: min(340px, 88vw);
+  display: grid; gap: 12px;
+  padding: 26px;
+  border: 1px solid var(--line-2);
+  border-radius: 16px;
+  background: var(--bg-2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+}
+#gate h1 { margin: 0; font-size: 18px; letter-spacing: .01em; }
+#gate p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
+#gate input {
+  width: 100%; padding: 10px 12px;
+  border: 1px solid var(--line-2); border-radius: 9px;
+  background: var(--bg); color: var(--ink);
+  font: inherit;
+}
+#gate button {
+  padding: 10px 14px; border: 0; border-radius: 9px;
+  background: var(--accent); color: var(--accent-ink, #111);
+  font-weight: 600; cursor: pointer;
+}
+#gate-error { color: #f87171; min-height: 1.2em; font-size: 12px; }
