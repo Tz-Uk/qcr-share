@@ -756,6 +756,9 @@ export function createUI(view, app) {
   function about() {
     const m = state.meta;
     const shia = state.mode === 'shia';
+    const privacy = window.QCR_CLARITY_ID
+      ? 'This public build uses <a href="https://clarity.microsoft.com" target="_blank" rel="noopener">Microsoft Clarity</a> for aggregate usage analytics and session recordings. Recordings may include the unlock screen. No accounts. The text, links and fonts are served from this site, and a service worker keeps them on your device after the first visit.'
+      : 'No analytics are enabled in this build. No accounts and no third-party requests; the text, links and fonts are served from this site, and a service worker keeps them on your device after the first visit.';
     const wrap = document.createElement('div');
     wrap.innerHTML = `
       <h2 id="modal-title">Quran Cross-References</h2>
@@ -779,10 +782,10 @@ export function createUI(view, app) {
         <li><b>Surah metadata</b> — names, revelation place, verse counts, revelation order, via the same API.</li>
       </ul>
       <p class="small">This is a reading aid, not a tafsir. A cross-reference is one scholar's judgement that two passages belong together; it is not a claim that they say the same thing. For worship and rulings, read the verse in its surah and consult a qualified teacher.</p>
-      ${shia ? '<p class="small"><b>Private build.</b> The al-Mizan data packaging is CC BY-ND 4.0; this repository is not published. Distributing derived link data publicly would need the publisher\'s permission.</p>' : ''}
+      ${shia ? '<p class="small"><b>Data note.</b> The al-Mizan packaging is CC BY-ND 4.0. This build includes derived verse pairs with attribution; see <a href="./data/README.md">data/README.md</a>.</p>' : ''}
 
       <h3>Privacy</h3>
-      <p class="small">No analytics, no accounts, no third-party requests. The text, the links and the fonts are served from this site, and a service worker keeps them on your device after the first visit.</p>
+      <p class="small">${privacy}</p>
       <p class="small">Renderer: <b>${view.isGL ? 'WebGL2' : 'Canvas2D fallback'}</b>${view.isGL && view.glRenderer ? ` · ${String(view.glRenderer).slice(0, 90)}` : ''} · ${formatNumber(state.linkCount)} links · build ${app.build || '?'}. ${view.isGL ? '' : 'If this says fallback, enable hardware acceleration in the browser for the smooth view.'}</p>
     `;
     openModal(wrap);
