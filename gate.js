@@ -13,6 +13,9 @@
     })(window, document, 'clarity', 'script', CLARITY_ID);
   };
 
+  // Clarity covers the gate too; the password field is data-clarity-mask'd.
+  loadClarity();
+
   if (sessionStorage.getItem('qcr-gate') === '1') {
     gate.remove();
     loadClarity();

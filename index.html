@@ -18,10 +18,11 @@
 </head>
 <body>
 <div id="gate" role="dialog" aria-modal="true" aria-label="Password required">
-  <form id="gate-form" autocomplete="off">
+  <form id="gate-form" autocomplete="off" data-clarity-mask="true">
     <h1>Protected</h1>
     <p>Enter the password to open this page.</p>
-    <input id="gate-pass" type="password" autocomplete="current-password" autofocus>
+    <input id="gate-pass" type="text" autocomplete="off" spellcheck="false"
+      autocapitalize="off" data-clarity-mask="true" autofocus>
     <button type="submit">Open</button>
     <p id="gate-error" role="alert"></p>
   </form>
