@@ -75,6 +75,7 @@ async function boot() {
   restoreTheme();
   wire();
   app.ready = true;
+  setTimeout(showMobileNotice, 700);
 
   const deep = readHash();
   if (deep != null) {
@@ -264,6 +265,22 @@ function restoreTheme() {
   const theme = saved || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
   document.documentElement.dataset.theme = theme;
   app.view?.invalidate();
+}
+
+function showMobileNotice() {
+  if (!window.matchMedia('(max-width: 760px)').matches) return;
+  try {
+    if (localStorage.getItem('qcr-mobile-notice') === '1') return;
+  } catch { /* storage may be unavailable */ }
+  const el = document.createElement('div');
+  el.className = 'mobile-notice';
+  el.setAttribute('role', 'status');
+  el.innerHTML = '<span>Best on a larger screen — the map and connections are easier to explore on a PC. You can still use everything here.</span><button type="button">Got it</button>';
+  el.querySelector('button').addEventListener('click', () => {
+    el.remove();
+    try { localStorage.setItem('qcr-mobile-notice', '1'); } catch { /* ignore */ }
+  });
+  document.body.append(el);
 }
 
 function wire() {

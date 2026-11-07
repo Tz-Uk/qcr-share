@@ -631,6 +631,28 @@ body.panel-open .footbar { right: var(--panel-w); }
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
+.mobile-notice {
+  position: fixed; left: 50%; bottom: calc(var(--foot-h) + 52px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 55;
+  display: flex; gap: 10px; align-items: center;
+  width: min(92vw, 440px);
+  padding: 10px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--ink-2);
+  box-shadow: var(--shadow);
+  font-size: 12px; line-height: 1.45;
+}
+.mobile-notice span { flex: 1; }
+.mobile-notice button {
+  flex: none; padding: 6px 10px; border-radius: 8px;
+  border: 1px solid var(--line-2); background: transparent;
+  color: var(--ink); font: inherit; cursor: pointer;
+}
+body.panel-open .mobile-notice { display: none; }
+
 .noscript {
   position: fixed; inset: 0; z-index: 100;
   display: flex; align-items: center; justify-content: center;
