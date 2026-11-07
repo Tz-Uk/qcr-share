@@ -5,6 +5,7 @@
 import {
   state, refOf, keyOf, surahOf, translationText, connectionsOf, posOf,
   categoryName, formatNumber, parseReference, searchText, findSurah, translationMeta,
+  surahLinkCount,
 } from './data.js';
 
 const CATEGORY_BLURB = {
@@ -45,6 +46,7 @@ export function createUI(view, app) {
   let contextMode = false;
   let connSort = 'near';
   let panelIndex = null;
+  let panelSurah = null;
   let searchTimer = 0;
   let searchItems = [];
   let searchActive = -1;
@@ -89,7 +91,7 @@ export function createUI(view, app) {
       b.className = `surah-seg ${s.place}`;
       b.style.flex = `${s.verses} 1 0`;
       b.dataset.surah = s.n;
-      b.title = `${s.n} · ${s.name} — ${s.verses} verses (${s.place === 'meccan' ? 'Meccan' : 'Medinan'})`;
+      b.title = `${s.n} · ${s.name} — ${s.verses} verses · ${formatNumber(surahLinkCount(s.n))} connections (${s.place === 'meccan' ? 'Meccan' : 'Medinan'})`;
       b.setAttribute('aria-label', `Surah ${s.n}, ${s.name}, ${s.verses} verses`);
       const span = document.createElement('span');
       span.textContent = s.n;
@@ -140,7 +142,7 @@ export function createUI(view, app) {
     const r = button.getBoundingClientRect();
     const half = 110;
     const left = Math.max(half + 8, Math.min(window.innerWidth - half - 8, r.left + r.width / 2));
-    els.surahLabel.textContent = `${s.n} · ${s.name} — ${s.verses} verses · ${s.place === 'meccan' ? 'Meccan' : 'Medinan'}`;
+    els.surahLabel.textContent = `${s.n} · ${s.name} — ${s.verses} verses · ${formatNumber(surahLinkCount(s.n))} connections · ${s.place === 'meccan' ? 'Meccan' : 'Medinan'}`;
     els.surahLabel.style.left = `${left}px`;
     els.surahLabel.style.bottom = `${window.innerHeight - r.top + 6}px`;
     els.surahLabel.classList.add('show');
@@ -183,6 +185,7 @@ export function createUI(view, app) {
 
   function openPanel(index) {
     panelIndex = index;
+    panelSurah = null;
     contextMode = false;
     view.setSelected(index);
     markActiveSurah(index);
@@ -486,6 +489,19 @@ export function createUI(view, app) {
   }
 
   function renderPanel(index) {
+    const summary = document.getElementById('p-surah');
+    if (summary) {
+      if (panelSurah) {
+        const s = state.quran.surahs[panelSurah - 1];
+        const total = surahLinkCount(panelSurah);
+        const targetDeg = state.degree[index] || 0;
+        summary.hidden = false;
+        summary.textContent = `Surah ${panelSurah} · ${s.name} — ${formatNumber(total)} connections across ${s.verses} verses. Showing ${refOf(index)} (${formatNumber(targetDeg)} connections).`;
+      } else {
+        summary.hidden = true;
+        summary.textContent = '';
+      }
+    }
     if (contextMode) {
       panelIndex = index;
       view.setSelected(index);
@@ -502,6 +518,11 @@ export function createUI(view, app) {
       return;
     }
     renderDetails(index);
+  }
+
+  function setSurahSummary(number) {
+    panelSurah = number;
+    if (panelIndex != null) renderPanel(panelIndex);
   }
 
   function pill(text, cls = '') {
@@ -531,7 +552,7 @@ export function createUI(view, app) {
       m.textContent = `${s.name} · ${s.english}`;
       const d = document.createElement('div');
       d.className = 'tt-deg';
-      d.textContent = `${s.verses} verses · click to fit connections`;
+      d.textContent = `${s.verses} verses · ${formatNumber(surahLinkCount(s.n))} connections`;
       els.tooltip.append(r, m, d);
       els.tooltip.hidden = false;
       const stage = $('#stage').getBoundingClientRect();
@@ -1030,6 +1051,7 @@ export function createUI(view, app) {
     renderStats,
     markActiveSurah,
     showTooltip,
+    setSurahSummary,
     shareCard,
     toast,
     openModal,

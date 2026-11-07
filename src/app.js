@@ -127,14 +127,27 @@ function navigate(index, { fromBar = false, replace = false, fitConnections = fa
 }
 
 /** Shared by the surah bar and the surah labels drawn on the diagram. */
+function busiestVerse(n) {
+  const s = state.quran.surahs[n - 1];
+  let best = s.start;
+  let bestDeg = -1;
+  for (let i = s.start; i < s.start + s.verses; i++) {
+    const degree = state.degree[i] || 0;
+    if (degree > bestDeg) { bestDeg = degree; best = i; }
+  }
+  return best;
+}
+
 function selectSurah(n) {
   const s = state.quran.surahs[n - 1];
   if (!s) return;
   state.activeSurah = n;
   const env = surahEnvelope(n);
+  const target = busiestVerse(n);
   app.view.fitSurah(n);
-  app.view.setSelected(s.start);
-  navigate(s.start, { fromBar: true });
+  app.view.setSelected(target);
+  navigate(target, { fromBar: true });
+  app.ui.setSurahSummary?.(n);
   setTimeout(syncUrl, 560);
   if (env && env.end - env.start > 5000) {
     const span = Math.min(6236, Math.round(env.end - env.start));

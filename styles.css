@@ -469,6 +469,17 @@ body.panel-open .footbar { right: var(--panel-w); }
 .ref { font-size: 26px; font-weight: 680; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
 .sub { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
 
+.surah-summary {
+  margin: 0 18px 12px;
+  padding: 8px 10px;
+  border-left: 2px solid var(--accent);
+  background: var(--bg-3);
+  border-radius: 0 8px 8px 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.surah-summary[hidden] { display: none; }
 .panel-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 18px 14px; }
 .chip {
   font-size: 11px; padding: 4px 9px; border-radius: 99px;
