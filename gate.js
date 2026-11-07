@@ -1,6 +1,12 @@
 (() => {
   const gate = document.getElementById('gate');
   if (!gate) return;
+  const favicon = document.getElementById('favicon');
+  const restoreChrome = () => {
+    delete document.documentElement.dataset.locked;
+    if (favicon) favicon.setAttribute('href', './public/favicon.svg');
+    document.title = window.QCR_APP_TITLE || 'Quran Cross-References';
+  };
 
   const CLARITY_ID = window.QCR_CLARITY_ID || '';
   const CLARITY_HOSTS = new Set(['tz-uk.github.io']);
@@ -20,9 +26,14 @@
 
   if (sessionStorage.getItem('qcr-gate') === '1') {
     gate.remove();
+    restoreChrome();
     loadClarity();
     return;
   }
+
+  document.documentElement.dataset.locked = '1';
+  document.title = 'Protected';
+  if (favicon) favicon.setAttribute('href', './public/lock.svg');
 
   const form = document.getElementById('gate-form');
   const input = document.getElementById('gate-pass');
@@ -61,6 +72,7 @@
       if (hashes.has(await hex(input.value))) {
         sessionStorage.setItem('qcr-gate', '1');
         gate.remove();
+        restoreChrome();
         loadClarity();
       } else {
         error.textContent = 'Wrong password';

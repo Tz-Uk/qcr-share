@@ -237,7 +237,9 @@ function updateModeUI() {
   }
   const source = $('#source-btn');
   if (source) source.textContent = `${state.meta.sourceShort}, ${state.meta.sourceWork}`;
-  document.title = `Quran Cross-References — ${MODES[state.mode].label} (${state.meta.sourceShort})`;
+  const title = `Quran Cross-References — ${MODES[state.mode].label} (${state.meta.sourceShort})`;
+  window.QCR_APP_TITLE = title;
+  document.title = document.documentElement.dataset.locked === '1' ? 'Protected' : title;
 }
 
 async function switchMode(mode) {
