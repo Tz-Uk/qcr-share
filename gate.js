@@ -3,8 +3,10 @@
   if (!gate) return;
 
   const CLARITY_ID = window.QCR_CLARITY_ID || '';
+  const CLARITY_HOSTS = new Set(['tz-uk.github.io']);
   const loadClarity = () => {
     if (!CLARITY_ID || window.__qcrClarity) return;
+    if (navigator.webdriver || !CLARITY_HOSTS.has(location.hostname)) return;
     window.__qcrClarity = true;
     (function (c, l, a, r, i, t, y) {
       c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
