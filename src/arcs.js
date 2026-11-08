@@ -480,8 +480,12 @@ export class ArcView {
   }
 
   /** Fit a verse together with every verse it connects to. */
-  fitVerseConnections(index) {
+  fitVerseConnections(index, { keepZoomIfEmpty = false } = {}) {
     const env = verseEnvelope(index);
+    if (env.empty && keepZoomIfEmpty) {
+      this.focusVerse(index, { zoom: false });
+      return;
+    }
     this.focusPos(env.start, env.end);
   }
 

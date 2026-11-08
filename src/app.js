@@ -112,7 +112,7 @@ async function boot() {
 
 /* ------------------------------------------------------------- navigation */
 
-function navigate(index, { fromBar = false, replace = false, fitConnections = false } = {}) {
+function navigate(index, { fromBar = false, replace = false, fitConnections = true } = {}) {
   if (index == null) return;
   index = Math.max(0, Math.min(6235, index));
   state.activeSurah = state.quran.verses[index].s;
@@ -404,7 +404,7 @@ function wire() {
   window.addEventListener('hashchange', () => {
     const idx = readHash();
     if (idx != null && idx !== ui.panelIndex) {
-      view.focusVerse(idx, { zoom: false });
+      view.fitVerseConnections(idx);
       ui.openPanel(idx);
     } else if (idx == null && ui.panelIndex != null) {
       ui.closePanel();
@@ -420,7 +420,7 @@ function wire() {
 
 function focusKeepZoom(index) {
   state.activeSurah = state.quran.verses[index].s;
-  app.view.focusVerse(index, { zoom: false });
+  app.view.fitVerseConnections(index, { keepZoomIfEmpty: true });
   app.ui.openPanel(index);
   writeHash(index);
   app.ui.renderStats(filteredCount());

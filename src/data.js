@@ -231,9 +231,9 @@ export function verseEnvelope(index) {
     if (p < lo) lo = p;
     if (p > hi) hi = p;
   }
-  if (hi - lo < 2) return { start: p0 - 17, end: p0 + 17 };
+  if (hi - lo < 2) return { start: p0 - 17, end: p0 + 17, empty: true };
   const pad = Math.max(2, Math.round((hi - lo) * 0.06));
-  return { start: lo - pad, end: hi + pad };
+  return { start: lo - pad, end: hi + pad, empty: false };
 }
 
 export function surahNumberAtPos(pos) {
